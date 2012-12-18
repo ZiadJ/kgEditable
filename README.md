@@ -13,7 +13,7 @@ Plugin for koGrid that for making editable cells.
 </code>
 
 <code>
-columnDefs: ko.observableArray([
-            { field: 'Code', width: 225, displayName: 'Code', cellTemplate: kgEditable(tmplCell, 'tplEditCell', 'dblclick', 'orange') }
+columnDefs: ko.observableArray([<br/>
+            { field: 'Code', cellTemplate: kgEditable(tmplCell, 'tplEditCell', 'dblclick', 'orange') }<br/>
             })
 </code>
