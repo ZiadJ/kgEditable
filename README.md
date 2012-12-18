@@ -6,10 +6,11 @@ Plugin for koGrid that for making editable cells.
 <bold>Usage:</bold>
 
 
-
+<code>
 var tplEditCell = '<div><input type="text" class="kgCellInput" data-bind="value: $parent.entity[$data.field]" /></div>';
 
 var tmplCell = '<div><div data-bind="attr: { \'class\': \'kgCellText colt\' + $index()}, html: $data.getProperty($parent)" /></div></div>';
+</code>
 
 <code>
 columnDefs: ko.observableArray([
