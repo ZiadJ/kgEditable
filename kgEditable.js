@@ -3,12 +3,13 @@
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 // Version 0.2.0 beta
 
-function kgEditable(cellTemplate, editCellTemplateName, trigger, hilightClass) {
+function kgEditable(cellTemplate, editCellTemplateName, trigger, hilightClass, afterChangeCallbackName) {
     var tpl = ko.utils.unwrapObservable(cellTemplate);
     tpl = $(cellTemplate).attr('data-bind', ', editable: { '
         + (!editCellTemplateName ? '' : 'editTemplateName: ' + editCellTemplateName)
         + (!trigger ? '' : ', trigger: "' + trigger + '"')
         + (!hilightClass ? '' : ', hilightClass: "' + hilightClass + '"')
+        + (!afterChangeCallbackName ? '' : ', afterChangeCallback: "' + afterChangeCallbackName + '"')
         + ' }').wrap('<p>').parent().html();
     return tpl;
 }
@@ -42,6 +43,7 @@ ko.bindingHandlers.editable = {
 
                     inputElement.blur(function () {
                         setTimeout(function () {
+                            //toastr.success(ctx.$parent.entity[ctx.$data.field]());
                             $elem.children('.kgEditable').hide();
                             $elem.children(':not(.kgEditable)').show();
 
@@ -55,6 +57,10 @@ ko.bindingHandlers.editable = {
                                 else
                                     $elem.removeClass(options.hilightClass)
                             }
+
+                            if (hasChange && options.afterChangeCallback)
+                                ctx.$userViewModel[options.afterChangeCallback].call(ctx, ctx.$data.field, ctx.$parent.entity[ctx.$data.field]());
+
                         }, 0);
                     });
 
@@ -70,10 +76,10 @@ ko.bindingHandlers.editable = {
                             case 13:
                                 inputElement.blur();
                                 break;
-                            //case 40: // 'Down'
-                            //   var x = $elem.parentsUntil('.kgRow').
-                            //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
-                            //   return false;
+                                //case 40: // 'Down'
+                                //   var x = $elem.parentsUntil('.kgRow').
+                                //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
+                                //   return false;
                             default:
                         }
                     });
