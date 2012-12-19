@@ -2,7 +2,8 @@ kgEditable
 ==========
 
 A binding handler for koGrid that to make existing templates editable. The edit template is only loaded 
-during the edit process on each cell. So any amount of html can be placed in the edit template wihtout affecting performance.
+during the edit process for each cell via a binding created using the kgEditable function. 
+Therefore any amount of html can be placed in the edit template wihtout affecting the grid performance.
 
 <bold>Usage:</bold>
 
@@ -22,3 +23,5 @@ columnDefs: ko.observableArray([<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
 ])
 </code>
+
+Feel free to send me your suggestions.
