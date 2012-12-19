@@ -3,12 +3,12 @@
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 // Version 0.2.0 beta
 
-function kgEditable(cellTemplate, editCellTemplateName, trigger, bgColorOnChange) {
+function kgEditable(cellTemplate, editCellTemplateName, trigger, hilightClass) {
     var tpl = ko.utils.unwrapObservable(cellTemplate);
     tpl = $(cellTemplate).attr('data-bind', ', editable: { '
         + (!editCellTemplateName ? '' : 'editTemplateName: ' + editCellTemplateName)
         + (!trigger ? '' : ', trigger: "' + trigger + '"')
-        + (!bgColorOnChange ? '' : ', bgColorOnChange: "' + bgColorOnChange + '"')
+        + (!hilightClass ? '' : ', hilightClass: "' + hilightClass + '"')
         + ' }').wrap('<p>').parent().html();
     return tpl;
 }
@@ -17,7 +17,7 @@ ko.bindingHandlers.editable = {
     init: function (element, accessor) {
         setTimeout(function () {
             var options = ko.utils.unwrapObservable(accessor());
-
+            
             $(element)[options.trigger || 'click'](function () {
                 var $elem = $(element);
                 $elem.children(':not(.kgEditable)').hide();
@@ -39,32 +39,42 @@ ko.bindingHandlers.editable = {
                     $elem.children('.kgEditable').find('.kgCellInput, input').blur(function () {
                         $elem.children('.kgEditable').hide();
                         $elem.children(':not(.kgEditable)').show();
+
                         var hasChange = $elem.data('kgCellInitValue') != ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
-                        $elem.css('background-color', !hasChange ? '' : options.bgColorOnChange || 'rgba(255, 95, 0, 0.3)');
-                    });
 
-                    $elem.keypress(function (event) {
-                        if (event.key == 'Esc') {
-                            ko.applyBindings(ctx, element);
-                            $elem.find('.kgCellInput, input').blur();
-                        }
-                        if (event.key == 'Enter') {
-                            $elem.find('.kgCellInput, input').blur();
-                            return false;
+                        if (options.hilightClass) { //if (options.hilightClass.match(/rgb\(|rgba\(|\#[0-9]?/gi))
+                            if (hasChange)
+                                $elem.addClass(options.hilightClass);
+                            else
+                                $elem.removeClass(options.hilightClass)
+                        } else {
+                            $elem.css('backgroundColor', !hasChange ? '' : options.hilightClass || 'rgba(255, 95, 0, 0.4)');
                         }
                     });
 
-                    /*$elem.keyup(function (event) {
-                        if (event.key == 'Down') {
-                            var x = $elem.parentsUntil('.kgRow').
-                            $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
+                    $elem.keydown(function (e) {
+                        if (e.which == 13)
                             return false;
+                    }).keyup(function (e) {
+                        switch (e.which) {
+                            case 27:
+                                ko.applyBindings(ctx, element);
+                                $elem.find('.kgCellInput, input').blur();
+                                break;
+                            case 13:
+                                $elem.find('.kgCellInput, input').blur();
+                                break;
+                            //case 'Down':
+                            //   var x = $elem.parentsUntil('.kgRow').
+                            //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
+                            //   return false;
+                            default:
                         }
-                    });*/
+                    });
                 }
                 $elem.children('.kgEditable').show();
                 if ($elem.find('.kgCellInput, input').is(":not(:focus)")) {
-                    $elem.find('.kgCellInput, input').select();
+                    $elem.find('.kgCellInput, input').select()
                 }
             });
         }, 0);
