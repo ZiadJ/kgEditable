@@ -59,8 +59,8 @@ ko.bindingHandlers.editable = {
                             }
 
                             if (hasChange && options.afterChangeCallback)
-                                ctx.$parent.$userViewModel[options.afterChangeCallback].call(ctx, ctx.$data.field, ctx.$parent.entity[ctx.$data.field]());
-
+                                ctx.$parent.$userViewModel[options.afterChangeCallback].call(ctx, ctx.$data.field,
+                                    ctx.$parent.entity[ctx.$data.field](), $elem.data('kgCellInitValue'), ctx);
                         }, 0);
                     });
 
