@@ -1,13 +1,22 @@
 kgEditable
 ==========
+###Description:###
+A binding handler for koGrid that instantly turns existing templates into editable ones. This can be done via markup or 
+by simply calling the <code>kgEditable</code> function with the readonly and editable templates as parameters. 
 
-A binding handler for koGrid to turn any existing template into an editable without having to modifying it. The edit 
-template is only loaded during the edit process for each cell via a binding created using the <code>kgEditable</code> function. 
-Therefore any amount of html can be placed in the edit template wihtout affecting the grid performance.
+###Events:###
+Clicking on a cell will automatically put it into edit mode. However this can be changed to say a double click via the 
+<code>trigger</code> parameter. 
 
-<bold>Usage:</bold>
+###Change tracking:###
+Modified cells are automatically hilighted. To revert a cell back to its original value during editing just press the
+Esc key.
 
+###Performance:###
+No edit markup is not loaded when the grid is instanciated. It only happens when a cell is edited. Therefore the markup
+used in the the edit template will not affect the overall grid performance.
 
+###Usage:##
 <code>
 var tplDefault = '<...>';
 </code>
@@ -24,4 +33,5 @@ var columnDefinitions = ko.observableArray([<br/>
 ]);
 </code>
 
-Feel free to send me your suggestions and contribute.
+I'm commited to develop this project further depending on public interest. So you're most welcome to post suggestions 
+and/or contribute. 
