@@ -17,14 +17,12 @@ ko.bindingHandlers.editable = {
     init: function (element, accessor) {
         setTimeout(function () {
             var options = ko.utils.unwrapObservable(accessor());
-            
-            $(element)[options.trigger || 'click'](function () {
+
+            $(element)[options.trigger || 'focus'](function () {
                 var $elem = $(element);
                 $elem.children(':not(.kgEditable)').hide();
                 if ($elem.data('kgCellInitValue') == undefined) {
-                    var editElement = $(options.editTemplateName || options);
-                    editElement.addClass('kgEditable');
-
+                    var editElement = $(options.editTemplateName || options).addClass('kgEditable');
                     $elem.append(editElement);
 
                     twoWayBoundHtml = $elem.html().replace(/\$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
@@ -33,23 +31,31 @@ ko.bindingHandlers.editable = {
 
                     var ctx = ko.contextFor(element);
                     ko.applyBindings(ctx, element);
+
                     var initValue = ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
                     $elem.data('kgCellInitValue', initValue);
 
-                    $elem.children('.kgEditable').find('.kgCellInput, input').blur(function () {
-                        $elem.children('.kgEditable').hide();
-                        $elem.children(':not(.kgEditable)').show();
+                    editElement = $elem.children('.kgEditable');
+                    var inputElement = editElement.find('.kgCellInput');
+                    if (!inputElement.length)
+                        inputElement = editElement.find('input').last();
 
-                        var hasChange = $elem.data('kgCellInitValue') != ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
+                    inputElement.blur(function () {
+                        setTimeout(function () {
+                            $elem.children('.kgEditable').hide();
+                            $elem.children(':not(.kgEditable)').show();
 
-                        if (options.hilightClass) { //if (options.hilightClass.match(/rgb\(|rgba\(|\#[0-9]?/gi))
-                            if (hasChange)
-                                $elem.addClass(options.hilightClass);
-                            else
-                                $elem.removeClass(options.hilightClass)
-                        } else {
-                            $elem.css('backgroundColor', !hasChange ? '' : options.hilightClass || 'rgba(255, 95, 0, 0.4)');
-                        }
+                            var hasChange = $elem.data('kgCellInitValue') != ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
+
+                            if (!options.hilightClass) { // || options.hilightClass.match(/rgb\(|rgba\(|\#[0-9]?/gi))
+                                $elem.css('backgroundColor', !hasChange ? '' : options.hilightClass || 'rgba(255, 95, 0, 0.3)');
+                            } else {
+                                if (hasChange)
+                                    $elem.addClass(options.hilightClass);
+                                else
+                                    $elem.removeClass(options.hilightClass)
+                            }
+                        }, 0);
                     });
 
                     $elem.keydown(function (e) {
@@ -59,12 +65,12 @@ ko.bindingHandlers.editable = {
                         switch (e.which) {
                             case 27:
                                 ko.applyBindings(ctx, element);
-                                $elem.find('.kgCellInput, input').blur();
+                                inputElement.blur();
                                 break;
                             case 13:
-                                $elem.find('.kgCellInput, input').blur();
+                                inputElement.blur();
                                 break;
-                            //case 'Down':
+                            //case 40: // 'Down'
                             //   var x = $elem.parentsUntil('.kgRow').
                             //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
                             //   return false;
@@ -72,6 +78,7 @@ ko.bindingHandlers.editable = {
                         }
                     });
                 }
+
                 $elem.children('.kgEditable').show();
                 if ($elem.find('.kgCellInput, input').is(":not(:focus)")) {
                     $elem.find('.kgCellInput, input').select()
