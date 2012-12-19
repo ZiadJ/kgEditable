@@ -9,11 +9,11 @@ Therefore any amount of html can be placed in the edit template wihtout affectin
 
 
 <code>
-var tplEditCell = ...;
+var tplDefault = '<div...';
 </code>
 <br/>
 <code>
-var tmplCell = ...;
+var tmplEdit = '<input...';
 </code>
 <br/>
 <br/>
