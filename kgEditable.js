@@ -7,7 +7,7 @@ function kgEditable(cellTemplate, editCellTemplateName, trigger, bgColorOnChange
     var tpl = ko.utils.unwrapObservable(cellTemplate);
     tpl = $(cellTemplate).attr('data-bind', ', editable: { '
         + (!editCellTemplateName ? '' : 'editTemplateName: ' + editCellTemplateName)
-        + (!triggerName ? '' : ', trigger: "' + triggerName + '"')
+        + (!trigger ? '' : ', trigger: "' + trigger + '"')
         + (!bgColorOnChange ? '' : ', bgColorOnChange: "' + bgColorOnChange + '"')
         + ' }').wrap('<p>').parent().html();
     return tpl;
