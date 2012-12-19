@@ -59,7 +59,7 @@ ko.bindingHandlers.editable = {
                             }
 
                             if (hasChange && options.afterChangeCallback)
-                                ctx.$userViewModel[options.afterChangeCallback].call(ctx, ctx.$data.field, ctx.$parent.entity[ctx.$data.field]());
+                                ctx.$parent.$userViewModel[options.afterChangeCallback].call(ctx, ctx.$data.field, ctx.$parent.entity[ctx.$data.field]());
 
                         }, 0);
                     });
@@ -76,10 +76,10 @@ ko.bindingHandlers.editable = {
                             case 13:
                                 inputElement.blur();
                                 break;
-                                //case 40: // 'Down'
-                                //   var x = $elem.parentsUntil('.kgRow').
-                                //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
-                                //   return false;
+                            //case 40: // 'Down'
+                            //   var x = $elem.parentsUntil('.kgRow').
+                            //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
+                            //   return false;
                             default:
                         }
                     });
