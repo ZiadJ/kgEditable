@@ -27,7 +27,7 @@ ko.bindingHandlers.editable = {
 
                     $elem.append(editElement);
 
-                    twoWayBoundHtml = $elem.html().replace(/$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
+                    twoWayBoundHtml = $elem.html().replace(/\$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
                                                   .replace(/getProperty\(\$parent\)/g, '$parent.entity[$data.field]');
                     $elem.html(twoWayBoundHtml);
 
@@ -42,6 +42,7 @@ ko.bindingHandlers.editable = {
                         var hasChange = $elem.data('kgCellInitValue') != ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
                         $elem.css('background-color', !hasChange ? '' : options.bgColorOnChange || 'rgba(255, 95, 0, 0.3)');
                     });
+
                     $elem.keypress(function (event) {
                         if (event.key == 'Esc') {
                             ko.applyBindings(ctx, element);
@@ -52,6 +53,7 @@ ko.bindingHandlers.editable = {
                             return false;
                         }
                     });
+
                     /*$elem.keyup(function (event) {
                         if (event.key == 'Down') {
                             var x = $elem.parentsUntil('.kgRow').
