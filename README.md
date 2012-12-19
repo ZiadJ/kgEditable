@@ -17,7 +17,7 @@ var tmplCell = ...;
 <br/>
 <code>
 columnDefs: ko.observableArray([<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{ field: 'Code', cellTemplate: kgEditable(tmplCell, 'tplEditCell', 'dblclick', 'orange') },<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ field: 'Code', cellTemplate: kgEditable(tplDefault, 'tplEdit', 'dblclick', 'orange') },<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
-]), ...
+])
 </code>
