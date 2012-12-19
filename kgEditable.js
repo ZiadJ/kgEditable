@@ -25,8 +25,6 @@ function kgEditable(cellTemplate, editCellTemplateName, trigger, bgColorOnChange
     return tpl;
 }
 
-var lastSelectedKgElement;
-
 ko.bindingHandlers.editable = {
     init: function (element, accessor) {
         setTimeout(function () {
@@ -77,7 +75,7 @@ ko.bindingHandlers.editable = {
                 $elem.children('.kgEditable').show();
                 if ($elem.find('.kgCellInput, input').is(":not(:focus)")) {
                     $elem.find('.kgCellInput, input').select();
-                    lastSelectedkgElement = $elem;
+                    //lastSelectedkgElement = $elem;
                 }
             });
         }, 0);
