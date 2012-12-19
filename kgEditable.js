@@ -27,9 +27,9 @@ ko.bindingHandlers.editable = {
 
                     $elem.append(editElement);
 
-                    twoBoundHtml = $elem.html().replace(/$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
-                                               .replace(/getProperty\(\$parent\)/g, '$parent.entity[$data.field]');
-                    $elem.html(twoBoundHtml);
+                    twoWayBoundHtml = $elem.html().replace(/$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
+                                                  .replace(/getProperty\(\$parent\)/g, '$parent.entity[$data.field]');
+                    $elem.html(twoWayBoundHtml);
 
                     var ctx = ko.contextFor(element);
                     ko.applyBindings(ctx, element);
@@ -63,7 +63,6 @@ ko.bindingHandlers.editable = {
                 $elem.children('.kgEditable').show();
                 if ($elem.find('.kgCellInput, input').is(":not(:focus)")) {
                     $elem.find('.kgCellInput, input').select();
-                    //lastSelectedkgElement = $elem;
                 }
             });
         }, 0);
