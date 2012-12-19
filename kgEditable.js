@@ -1,7 +1,7 @@
 // Observer plugin for Knockout http://knockoutjs.com/
 // (c) Ziad Jeeroburkhan
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
-// Version 0.2.2
+// Version 0.2.0 beta
 
 function kgEditable(cellTemplate, editCellTemplateName, trigger, bgColorOnChange) {
     var tpl = ko.utils.unwrapObservable(cellTemplate);
