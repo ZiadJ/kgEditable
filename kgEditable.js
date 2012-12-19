@@ -3,24 +3,11 @@
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 // Version 0.2.2
 
-/* Sample editable templates */
-
-// var tmlDefault = '<div><div data-bind="attr: { \'class\': \'kgCellText colt\' + $index()}, html: $data.getProperty($parent)" /></div></div>';
-
-// var tplEdit = '<div><input type="text" data-bind="attr: { \'class\': \'kgCellInput colt\' + $index()}, value: $parent.entity[$data.field]" /></div>';
-
-// function tmplDefaultEditable() {
-//     return kgEditable(tmplDefault, 'tplEdit'); // The edit template needs to be referred to as a string for now.
-// }
-
-
-/* kgEditable Binder */
-
 function kgEditable(cellTemplate, editCellTemplateName, trigger, bgColorOnChange) {
     var tpl = ko.utils.unwrapObservable(cellTemplate);
     tpl = $(cellTemplate).attr('data-bind', ', editable: { '
         + (!editCellTemplateName ? '' : 'editTemplateName: ' + editCellTemplateName)
-        + (!trigger ? '' : ', trigger: "' + trigger + '"')
+        + (!triggerName ? '' : ', trigger: "' + triggerName + '"')
         + (!bgColorOnChange ? '' : ', bgColorOnChange: "' + bgColorOnChange + '"')
         + ' }').wrap('<p>').parent().html();
     return tpl;
