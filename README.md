@@ -24,4 +24,4 @@ var columnDefinitions = ko.observableArray([<br/>
 ]);
 </code>
 
-Feel free to send me your suggestions.
+Feel free to send me your suggestions and contribute.
