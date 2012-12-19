@@ -9,6 +9,7 @@ Plugin for koGrid that for making editable cells.
 <code>
 var tplEditCell = ...;
 </code>
+<br/>
 <code>
 var tmplCell = ...;
 </code>
