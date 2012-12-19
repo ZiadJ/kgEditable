@@ -1,7 +1,8 @@
 kgEditable
 ==========
 
-Plugin for koGrid that for making editable cells.
+A binding handler for koGrid that to make existing templates editable. The edit template automatically is only loaded 
+during the edit process on each cell. So any amount of html can be placed in the edit template wihtout affecting performance.
 
 <bold>Usage:</bold>
 
