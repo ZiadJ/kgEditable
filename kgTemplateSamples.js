@@ -2,7 +2,7 @@ var tplDefault = '<div><div data-bind="attr: { \'class\': \'kgCellText colt\' + 
 
 var tplEdit = '<div><input type="text" data-bind="attr: { \'class\': \'kgCellInput colt\' + $index()}, value: $parent.entity[$data.field]" /></div>';
 
-function tmplDefaultEditable() {
+function tplDefaultEditable() {
     return kgEditable(tplDefault, 'tplEdit'); // The edit template needs to be referred to as a string for now.
 }
 
