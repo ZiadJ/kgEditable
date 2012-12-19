@@ -36,7 +36,7 @@ ko.bindingHandlers.editable = {
                     var initValue = ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
                     $elem.data('kgCellInitValue', initValue);
 
-                    $elem.find('.kgCellInput, input').blur(function () {
+                    $elem.children('.kgEditable').find('.kgCellInput, input').blur(function () {
                         $elem.children('.kgEditable').hide();
                         $elem.children(':not(.kgEditable)').show();
                         var hasChange = $elem.data('kgCellInitValue') != ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
@@ -52,13 +52,13 @@ ko.bindingHandlers.editable = {
                             return false;
                         }
                     });
-                    $elem.keyup(function (event) {
-                        /*if (event.key == 'Down') {
+                    /*$elem.keyup(function (event) {
+                        if (event.key == 'Down') {
                             var x = $elem.parentsUntil('.kgRow').
                             $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
                             return false;
-                        }*/
-                    });
+                        }
+                    });*/
                 }
                 $elem.children('.kgEditable').show();
                 if ($elem.find('.kgCellInput, input').is(":not(:focus)")) {
