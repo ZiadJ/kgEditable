@@ -1,8 +1,8 @@
 kgEditable
 ==========
 
-A binding handler for koGrid that to make existing templates editable. The edit template is only loaded 
-during the edit process for each cell via a binding created using the kgEditable function. 
+A binding handler for koGrid to turn any existing template into an editable without having to modifying it. The edit 
+template is only loaded during the edit process for each cell via a binding created using the kgEditable function. 
 Therefore any amount of html can be placed in the edit template wihtout affecting the grid performance.
 
 <bold>Usage:</bold>
