@@ -4,9 +4,10 @@
 // Version 0.2.2
 
 /* Sample editable templates */
-// var tplEdit = '<div><input type="text" data-bind="attr: { \'class\': \'kgCellInput colt\' + $index()}, value: $parent.entity[$data.field]" /></div>';
 
 // var tmlDefault = '<div><div data-bind="attr: { \'class\': \'kgCellText colt\' + $index()}, html: $data.getProperty($parent)" /></div></div>';
+
+// var tplEdit = '<div><input type="text" data-bind="attr: { \'class\': \'kgCellInput colt\' + $index()}, value: $parent.entity[$data.field]" /></div>';
 
 // function tmplDefaultEditable() {
 //     return kgEditable(tmplDefault, 'tplEdit');
