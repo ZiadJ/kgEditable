@@ -19,7 +19,7 @@ ko.bindingHandlers.editable = {
         setTimeout(function () {
             var options = ko.utils.unwrapObservable(accessor());
 
-            $(element)[options.trigger || 'focus'](function () {
+            $(element)[options.trigger || 'click'](function () {
                 var $elem = $(element);
                 $elem.children(':not(.kgEditable)').hide();
                 if ($elem.data('kgCellInitValue') == undefined) {
