@@ -13,7 +13,7 @@ Modified cells are automatically hilighted. To revert a cell back to its origina
 Esc key.
 
 ###Performance:###
-No edit markup is not loaded when the grid is instanciated. It only happens when a cell is edited. Therefore the markup
+No edit markup is loaded when the grid is instanciated. It only happens when a cell is edited. Therefore the markup
 used in the the edit template will not affect the overall grid performance.
 
 ###Usage:##
