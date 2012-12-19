@@ -28,10 +28,13 @@ var tmplEdit = '<...>';
 <br/>
 <code>
 var columnDefinitions = ko.observableArray([<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{ field: 'SomeFieldName', cellTemplate: kgEditable(tplDefault, 'tplEdit', 'dblclick', 'orange') },<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ field: 'SomeFieldName', cellTemplate: kgEditable(tplDefault, 'tplEdit', 'dblclick', 'orange', 'onModified') },<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;...<br/>
 ]);
 </code>
+
+An example can be found here:
+http://jsfiddle.net/K5wZ6/
 
 I'm commited to develop this project further depending on public interest. So you're most welcome to post suggestions 
 and/or contribute. 
