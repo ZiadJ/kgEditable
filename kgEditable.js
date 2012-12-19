@@ -6,8 +6,6 @@
 /* Sample editable templates with sample usage*/
 // var tplEdit = '<div><input type="text" data-bind="attr: { \'class\': \'kgCellInput colt\' + $index()}, value: $parent.entity[$data.field]" /></div>';
 
-// var tplEditCheckbox = '<div><input type="checkbox" data-bind="attr: { \'class\': \'kgCellInput colt\' + $index()}, checked: //$parent.entity[$data.field]" /></div>';
-
 // var tmlDefault = '<div><div data-bind="attr: { \'class\': \'kgCellText colt\' + $index()}, html: $data.getProperty($parent)" /></div></div>';
 
 // function tmplEditable() {
