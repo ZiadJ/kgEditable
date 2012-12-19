@@ -7,9 +7,12 @@ Plugin for koGrid that for making editable cells.
 
 
 <code>
-var tplEditCell = ...;<br/>
+var tplEditCell = ...;
+</code>
+<code>
 var tmplCell = ...;
 </code>
+<br/>
 <br/>
 <code>
 columnDefs: ko.observableArray([<br/>
