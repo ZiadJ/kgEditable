@@ -1,95 +1,123 @@
 // Observer plugin for Knockout http://knockoutjs.com/
 // (c) Ziad Jeeroburkhan
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
-// Version 0.2.0 beta
+// Version 0.5.0 beta
 
-function kgEditable(cellTemplate, editCellTemplateName, trigger, hilightClass, afterChangeCallbackName) {
+function kgEditable(cellTemplate, editCellTemplateName, editOn, hilightClass, onChangeCallbackName) {
     var tpl = ko.utils.unwrapObservable(cellTemplate);
-    tpl = $(cellTemplate).attr('data-bind', ', editable: { '
+    tpl = $(cellTemplate).addClass('kgEditable').attr('data-bind', ', kgEditable: { '
         + (!editCellTemplateName ? '' : 'editTemplateName: ' + editCellTemplateName)
-        + (!trigger ? '' : ', trigger: "' + trigger + '"')
+        + (!editOn ? '' : ', editOn: "' + editOn + '"')
         + (!hilightClass ? '' : ', hilightClass: "' + hilightClass + '"')
-        + (!afterChangeCallbackName ? '' : ', afterChangeCallback: "' + afterChangeCallbackName + '"')
-        + ' }').wrap('<p>').parent().html();
+        + (!onChangeCallbackName ? '' : ', onChange: "' + onChangeCallbackName + '"')
+        + ' }').wrap('<a>').parent().html();
     return tpl;
 }
 
-ko.bindingHandlers.editable = {
+ko.bindingHandlers.kgEditable = {
     init: function (element, accessor) {
-        setTimeout(function () {
-            var options = ko.utils.unwrapObservable(accessor());
+        var options = ko.utils.unwrapObservable(accessor());
 
-            $(element)[options.trigger || 'click'](function () {
-                var $elem = $(element);
-                $elem.children(':not(.kgEditable)').hide();
-                if ($elem.data('kgCellInitValue') == undefined) {
-                    var editElement = $(options.editTemplateName || options).addClass('kgEditable');
-                    $elem.append(editElement);
+        $(element).bind(options.editOn || 'click', function () {
+            $(element).trigger('edit');
+        }).bind('edit', function () {
+            var ctx = ko.contextFor(element);
+            var val = ctx.$parent.entity[ctx.$data.field];
+            var $elem = $(element);
+			
+            $elem.children(':not(.kgEditCell)').hide();
 
-                    twoWayBoundHtml = $elem.html().replace(/\$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
-                                                  .replace(/getProperty\(\$parent\)/g, '$parent.entity[$data.field]');
-                    $elem.html(twoWayBoundHtml);
+            if (val.initValue === undefined) {
+                val.initValue = ko.utils.unwrapObservable(val);
 
-                    var ctx = ko.contextFor(element);
-                    ko.applyBindings(ctx, element);
+                var editElement = $(options.editTemplateName || options).addClass('kgEditCell');
+                $elem.append(editElement);
 
-                    var initValue = ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
-                    $elem.data('kgCellInitValue', initValue);
+                twoWayBoundHtml = $elem.html().replace(/\$data.getProperty\(\$parent\)/g, '$parent.entity[$data.field]')
+                                              .replace(/getProperty\(\$parent\)/g, '$parent.entity[$data.field]');
+                $elem.html(twoWayBoundHtml);
 
-                    editElement = $elem.children('.kgEditable');
-                    var inputElement = editElement.find('.kgCellInput');
-                    if (!inputElement.length)
-                        inputElement = editElement.find('input').last();
+                ko.applyBindings(ctx, element);
 
-                    inputElement.blur(function () {
-                        setTimeout(function () {
-                            //toastr.success(ctx.$parent.entity[ctx.$data.field]());
-                            $elem.children('.kgEditable').hide();
-                            $elem.children(':not(.kgEditable)').show();
+                findInputElements().blur(function () {
+                    setTimeout(function () {
+                        if (findInputElements().is(":focus"))
+                            return;
 
-                            var hasChange = $elem.data('kgCellInitValue') != ko.utils.unwrapObservable(ctx.$parent.entity[ctx.$data.field]);
+                        $elem.children('.kgEditCell').hide();
+                        $elem.children(':not(.kgEditCell)').show();
 
-                            if (!options.hilightClass) { // || options.hilightClass.match(/rgb\(|rgba\(|\#[0-9]?/gi))
-                                $elem.css('backgroundColor', !hasChange ? '' : options.hilightClass || 'rgba(255, 95, 0, 0.3)');
-                            } else {
-                                if (hasChange)
-                                    $elem.addClass(options.hilightClass);
-                                else
-                                    $elem.removeClass(options.hilightClass)
+                        var hasChange = val.initValue != ko.utils.unwrapObservable(val);
+
+                        if (!options.hilightClass)  // || options.hilightClass.match(/rgb\(|rgba\(|\#[0-9]?/gi))
+                            $elem.css('backgroundColor', !hasChange ? '' : options.hilightClass || 'rgba(255, 95, 0, 0.3)');
+                        else if (hasChange)
+                            $elem.addClass(options.hilightClass);
+                        else
+                            $elem.removeClass(options.hilightClass)
+
+                        if (hasChange && ctx.$parent.$userViewModel.kgOnChange)
+                            ctx.$parent.$userViewModel[options.onChange || 'kgOnChange'].call(ctx, ctx.$data.field,
+                                ko.utils.unwrapObservable(val), val.initValue, element);
+                    }, 0);
+                });
+
+                $elem.keydown(function (e) {
+                    if ([13, 9, 38, 40].indexOf(e.which) >= 0)
+                        return false;
+                }).keyup(function (e) {
+                    switch (e.which) {
+                        case 27:
+                            ko.applyBindings(ctx, element);
+                            findInputElements().blur();
+                            break;
+                        case 13:
+                            //findInputElements().blur();
+                            //break;
+                        case 9:
+                            var cell = $elem.parents('.kgCell').first();
+                            for (var i = 0; i < 20; i++) {
+                                cell = e.shiftKey ? cell.prev() : cell.next();
+                                if (!cell.length) {
+                                    cell = $elem.parents('.kgRow');
+                                    cell = e.shiftKey ? cell.prev() : cell.next();
+                                }
+                                cell = cell.find('.kgEditable');
+                                cell = e.shiftKey ? cell.last() : cell.first();
+                                if (cell.length) {
+                                    cell.trigger('edit');
+                                    break;
+                                }
                             }
+                            break;
+                        case 38:
+                        case 40:
+                            var row = $elem.parents('.kgRow');
+                            row = e.which == 38 ? row.prev() : row.next();
+                            row.find('.kgCell').each(function () {
+                                if ($(this).attr('class') == $elem.parent().attr('class'))
+                                    $(this).children().first().trigger('edit');
+                            });
+                            break;
+                        default:
+                    }
+                });
+            }
 
-                            if (hasChange && options.afterChangeCallback)
-                                ctx.$parent.$userViewModel[options.afterChangeCallback].call(ctx, ctx.$data.field,
-                                    ctx.$parent.entity[ctx.$data.field](), $elem.data('kgCellInitValue'), ctx);
-                        }, 0);
-                    });
+            $elem.children('.kgEditCell').show();
+            var inputElements = findInputElements();
+            var hasFocusedInput = false;
+            $.each(inputElements, function () { if ($(this).is(":focus")) hasFocusedInput = true; });
+            if (!hasFocusedInput)
+                inputElements.first().select().focus();
 
-                    $elem.keydown(function (e) {
-                        if (e.which == 13)
-                            return false;
-                    }).keyup(function (e) {
-                        switch (e.which) {
-                            case 27:
-                                ko.applyBindings(ctx, element);
-                                inputElement.blur();
-                                break;
-                            case 13:
-                                inputElement.blur();
-                                break;
-                            //case 40: // 'Down'
-                            //   var x = $elem.parentsUntil('.kgRow').
-                            //   $elem.parentsUntil('.kgRow').parent().find('.kgCellInput, input').focus();
-                            //   return false;
-                            default:
-                        }
-                    });
-                }
-
-                $elem.children('.kgEditable').show();
-                if ($elem.find('.kgCellInput, input').is(":not(:focus)")) {
-                    $elem.find('.kgCellInput, input').select()
-                }
-            });
-        }, 0);
+            function findInputElements() {
+                var editElem = $elem.children('.kgEditCell');
+                var inputElems = editElem.find('.kgInput');
+                if (inputElems.length)
+                    return inputElems;
+                return editElem.find('input').last();
+            }
+        });
     }
 };
