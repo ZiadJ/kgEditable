@@ -9,22 +9,21 @@ Clicking on a cell will automatically put it into edit mode. However this can be
 <code>editOn</code> parameter. 
 
 ###Validation:###
-The following callback events are available on each cell:
-1. onEditStart
-2. onEditEnd
-3. onChange
-Those bring about enough control to help implement our own custom validation code.
+The following callback events are available on each cell:<br/>
+1. <code>onEditStart</code><br/>
+2. <code>onEditEnd</code><br/>
+This should make validation easy to implement programmatically.
 
 ###Change tracking:###
-Modified cells are automatically hilighted. To revert a cell in edit state back to its original value just press the
-Esc key.
+Modified cells are automatically hilighted and changes can be monitored via the <code>onChange</code> callback event. Note that while 
+a cell is being edited pressing the ESC key will revert it back to its original value.
 
 ###Navigation:###
 Keyboard navigation is currently enabled using the Enter|Tab, shift > Enter|Tab, Up and Down keys while the left and right keys
-control the cursor position inside the input elements. This however may change in later versions depending on user feedback.
+allow moving the cursor inside the input elements. This however may change in later versions depending on your feedback.
 
 ###Styling:###
-The edit template is always appended to the root element of the readonly template. This allows it to inherit any css
+The edit template is always appended into the root element of the readonly template. This allows it to inherit any css
 styling such as font color that is applied to the latter.
 
 ###Performance:###
@@ -48,10 +47,7 @@ var columnDefinitions = ko.observableArray([<br/>
 </code>
 
 ###Demo:###
-Here's a basic demo:
-http://jsfiddle.net/eV5Ly <br/>
-P.S This may not work in IE due to some jsFiddle issues.
-
+http://jsfiddle.net/3bb3p
 
 
 I'm commited to develop this project further depending on public interest. So you're most welcome to post suggestions 
