@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Kgeditable : Plugin for koGrid that for making editable cells" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Kgeditable</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ZiadJ/kgEditable">View on GitHub</a>
+
+          <h1 id="project_title">Kgeditable</h1>
+          <h2 id="project_tagline">Plugin for koGrid that for making editable cells</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ZiadJ/kgEditable/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ZiadJ/kgEditable/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>kgEditable</h1>
+
+<h3>Description:</h3>
+
+<p>A binding handler for koGrid that instantly turns existing templates into editable ones. This can be done via markup 
+or by simply calling the <code>kgEditable</code> function with the readonly and edit templates as parameters. </p>
+
+<h3>Events:</h3>
+
+<p>Clicking on a cell will automatically put it into edit mode. However this can be changed to say a double click via the 
+<code>editOn</code> parameter. </p>
+
+<h3>Validation:</h3>
+
+<p>The following callback events are available on each cell:
+1. onEditStart
+2. onEditEnd
+3. onChange
+Those bring about enough control to help implement our own custom validation code.</p>
+
+<h3>Change tracking:</h3>
+
+<p>Modified cells are automatically hilighted. To revert a cell in edit state back to its original value just press the
+Esc key.</p>
+
+<h3>Navigation:</h3>
+
+<p>Keyboard navigation is currently enabled using the Enter|Tab, shift &gt; Enter|Tab, Up and Down keys while the left and right keys
+control the cursor position inside the input elements. This however may change in later versions depending on user feedback.</p>
+
+<h3>Styling:</h3>
+
+<p>The edit template is always appended to the root element of the readonly template. This allows it to inherit any css
+styling such as font color that is applied to the latter.</p>
+
+<h3>Performance:</h3>
+
+<p>The edit template is only dynamically loaded whenever a cell is edited. Therefore the template content should not 
+affect the overall grid performance.</p>
+
+<h3>Usage:</h3>
+
+<p><code>
+var tplDefault = '&lt;...&gt;';
+</code>
+<br><code>
+var tmplEdit = '&lt;...&gt;';
+</code>
+<br><br><code>
+var columnDefinitions = ko.observableArray([<br>
+    { field: 'SomeFieldName', cellTemplate: kgEditable(tplDefault, 'tplEdit', 'dblclick', 'orange', 'onModified') } <br>
+]);
+</code></p>
+
+<h3>Demo:</h3>
+
+<p>Here's a basic demo:
+<a href="http://jsfiddle.net/eV5Ly">http://jsfiddle.net/eV5Ly</a> <br>
+P.S This may not work in IE due to some jsFiddle issues.</p>
+
+<p>I'm commited to develop this project further depending on public interest. So you're most welcome to post suggestions 
+and/or contribute. </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Kgeditable maintained by <a href="https://github.com/ZiadJ">ZiadJ</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
